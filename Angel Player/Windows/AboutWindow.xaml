@@ -1,0 +1,20 @@
+﻿<Window x:Class="Angel_Player.Windows.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Angel_Player.Windows"
+        mc:Ignorable="d"
+        x:Name="mainWindow" Title="About Angel Player" Height="200" Width="550" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="Red" BorderThickness="1" MouseDown="mainWindow_MouseDown" Background="White" Foreground="Black">
+    <Grid Margin="0,1,0,-1">
+        <Label Content="About Angel Player" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Foreground="Purple" FontSize="24"/>
+        <Label Content="Product: " HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Foreground="Black" />
+        <Label Content="Version: " HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Foreground="Black"/>
+        <Label Content="Developer:" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Foreground="Black"/>
+        <Label Content="Project:" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Foreground="Black"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="85,70,0,0" TextWrapping="Wrap" Text="Angel Player" VerticalAlignment="Top" Width="455" IsEnabled="False" HorizontalContentAlignment="Center" Background="White" Foreground="Black"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="85,99,0,0" TextWrapping="Wrap" Text="1.0.1.0" VerticalAlignment="Top" Width="455" IsEnabled="False" HorizontalContentAlignment="Center"  Background="White" Foreground="Black"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="85,128,0,0" TextWrapping="Wrap" Text="Ryukuo" VerticalAlignment="Top" Width="455" IsEnabled="False" HorizontalContentAlignment="Center"  Background="White" Foreground="Black"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="85,158,0,0" TextWrapping="Wrap" Text="https://github.com/Ryukuo/" VerticalAlignment="Top" Width="455" IsEnabled="False" HorizontalContentAlignment="Center"  Background="White" Foreground="Black"/>
+    </Grid>
+</Window>

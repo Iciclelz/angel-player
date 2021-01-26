@@ -1,0 +1,112 @@
+﻿<Controls:MetroWindow x:Name="mainWindow" x:Class="Angel_Player.Windows.PlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Angel_Player.Windows"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        TitleCaps="False"
+        Title="Angel Player" Height="275" Width="265" MinHeight="275" MinWidth="265" Closing="mainWindow_Closing" Icon="/Angel Player;component/angel-player-2.ico" MouseMove="mainWindow_MouseMove" Style="{DynamicResource VSWindowStyleKey}" BorderBrush="#FF008BFF" GlowBrush="#FF008BFF" NonActiveBorderBrush="Black" NonActiveGlowBrush="#FF008BFF" NonActiveWindowTitleBrush="#FF008BFF">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Controls:NumericUpDown x:Name="speedNumericUpDown" Value="1" Interval="0.5" Visibility="Collapsed" ValueChanged="speedNumericUpDown_ValueChanged"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml"/>
+                <ResourceDictionary Source="/Angel Player;component/Resources/Icons.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <RoutedUICommand x:Key="Escape" Text="Escapes fullscreen window mode." />
+            <RoutedUICommand x:Key="Fullscreen" Text="Launches fullscreen window mode." />
+            <RoutedUICommand x:Key="Playlist" Text="Launches Angel Playlist." />
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.CommandBindings>
+        <CommandBinding x:Name="escapeCommandBinding" Command="{StaticResource Escape}" Executed="escapeCommandBinding_Executed"/>
+        <CommandBinding Command="Open" Executed="openMenuItem_Click"/>
+        <CommandBinding Command="{StaticResource Fullscreen}" Executed="fullScreenMenuItem_Click"/>
+        <CommandBinding x:Name="playlistCommandBinding" Command="{StaticResource Playlist}" Executed="playlistCommandBinding_Executed"/>
+    </Controls:MetroWindow.CommandBindings>
+    <Controls:MetroWindow.InputBindings>
+        <KeyBinding Key="Esc" Command="{StaticResource Escape}"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="F11" Command="{StaticResource Fullscreen}"/>
+        <KeyBinding Key="Space" Modifiers="Control" Command="{StaticResource Playlist}"/>
+    </Controls:MetroWindow.InputBindings>
+    <Controls:MetroWindow.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="openMenuItem" Header="Open Media..." Click="openMenuItem_Click" InputGestureText="Ctrl+O"/>
+            <Separator/>
+            <MenuItem x:Name="playMenuItem" Header="Play" Click="playMenuItem_Click"/>
+            <MenuItem x:Name="pauseMenuItem" Header="Pause" Click="pauseMenuItem_Click"/>
+            <MenuItem x:Name="stopMenuItem" Header="Stop" Click="stopMenuItem_Click"/>
+            <MenuItem x:Name="repeatMenuItem" Header="Repeat" IsCheckable="True" IsChecked="True" Checked="repeatMenuItem_Checked" Unchecked="repeatMenuItem_Unchecked"/>
+            <Separator/>
+            <MenuItem x:Name="addToPlaylistMenuItem" Header="Add to Playlist" Click="addToPlaylistMenuItem_Click"/>
+            <MenuItem x:Name="showPlaylistMenuItem" Header="Show Playlist" IsCheckable="True" Checked="showPlaylistMenuItem_Checked" Unchecked="showPlaylistMenuItem_Unchecked" InputGestureText="Ctrl+Space"/>
+            <Separator/>
+            <MenuItem x:Name="hideDockMenuItem" Header="Hide Dock" IsCheckable="True" Checked="hideDockMenuItem_Checked" Unchecked="hideDockMenuItem_Unchecked" />
+            <MenuItem x:Name="fullScreenMenuItem" Header="Fullscreen" Click="fullScreenMenuItem_Click" InputGestureText="F11"/>
+            <Separator/>
+            <MenuItem x:Name="aboutMenuItem" Header="About Angel Player" Click="aboutMenuItem_Click"/>
+        </ContextMenu>
+    </Controls:MetroWindow.ContextMenu>
+    <Grid x:Name="grid" AllowDrop="True" Drop="grid_Drop">
+        <StatusBar x:Name="statusBar" Height="60" Margin="0,0,0,0" VerticalAlignment="Bottom">
+            <StatusBarItem HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top">
+                <Grid Margin="0,0,0,0">
+                    <Label x:Name="currentSecondLabel" Content="00:00:00" Width="55" HorizontalAlignment="Left"/>
+                    <Slider x:Name="slider" Style="{DynamicResource FlatSlider}" HorizontalContentAlignment="Stretch" Margin="55,0" Width="Auto" Foreground="#EE82EE" Background="Purple" Thumb.DragStarted="slider_DragStarted"  Thumb.DragCompleted="slider_DragCompleted" ValueChanged="slider_ValueChanged" SmallChange="0" LargeChange="0" VerticalAlignment="Center"/>
+                    <Label x:Name="totalSecondsLabel" Content="00:00:00" Width="55" HorizontalAlignment="Right"/>
+                    <Grid Margin="0,30,0,-30">
+                        <Rectangle x:Name="stopRectangle" HorizontalAlignment="Left" Width="27" MouseLeftButtonDown="stopRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="stopBrush" Visual="{StaticResource appbar_control_stop}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="speedRectangle" HorizontalAlignment="Left" Width="27" Margin="30,0,0,0" MouseLeftButtonDown="speedRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="speedBrush" Visual="{StaticResource appbar_medical_pulse}" Stretch="None" Opacity="0.5"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="rewindRectangle" Margin="85,0,145,0" Width="27" MouseLeftButtonDown="rewindRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="rewindBrush" Visual="{StaticResource appbar_control_rewind}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="playPauseRectangle" Margin="115,0,115,0" Width="27" MouseLeftButtonDown="playPauseRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="playPauseBrush" Visual="{StaticResource appbar_control_play}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="fastForwardRectangle" Margin="145,0,85,0" Width="27" MouseLeftButtonDown="fastForwardRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="fastForwardBrush" Visual="{StaticResource appbar_control_fastforward}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="soundRectangle" Margin="0,0,30,0" HorizontalAlignment="Right" Width="27" MouseLeftButtonDown="soundRectangle_MouseLeftButtonDown">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="soundBrush" Visual="{StaticResource appbar_sound_3}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="repeatRectangle" MouseLeftButtonDown="repeatRectangle_MouseLeftButtonDown" HorizontalAlignment="Right" Width="27">
+                            <Rectangle.Fill>
+                                <VisualBrush x:Name="repeatBrush" Visual="{StaticResource appbar_refresh}" Stretch="None"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
+                </Grid>
+            </StatusBarItem>
+        </StatusBar>
+        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" Margin="0,0,0,60" MouseLeftButtonUp="mediaElement_MouseLeftButtonUp" Drop="grid_Drop" Stretch="Fill" SpeedRatio="1" Volume="1"/>
+        <MediaElement x:Name="audioMediaElement" Margin="0,0,0,60" Volume="0" Stretch="UniformToFill" HorizontalAlignment="Center" LoadedBehavior="Manual" UnloadedBehavior="Manual" IsMuted="True"/>
+        <Label x:Name="mediaLabel" HorizontalAlignment="Left" Margin="5,2.5,0,0" VerticalAlignment="Top" Visibility="Hidden">
+            <Image Source="/Angel Player;component/play.png" Height="20" Width="20"/>
+        </Label>
+        <Label x:Name="titleLabel" HorizontalAlignment="Left" Margin="30,3.5,0,0" VerticalAlignment="Top" FontFamily="/Angel Player;component/#Myriad Pro" FontSize="16"/>
+    </Grid>
+</Controls:MetroWindow>

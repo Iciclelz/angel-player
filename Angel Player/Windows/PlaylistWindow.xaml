@@ -1,0 +1,71 @@
+﻿<Controls:MetroWindow x:Name="mainWindow" x:Class="Angel_Player.Windows.PlaylistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Angel_Player.Windows"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        TitleCaps="False"
+        Title="Angel Playlist" Height="700" Width="1100" IsCloseButtonEnabled="False" Closing="mainWindow_Closing" Loaded="mainWindow_Loaded" Style="{DynamicResource VSWindowStyleKey}" GlowBrush="#FF09C912" NonActiveBorderBrush="Black" NonActiveGlowBrush="Black" NonActiveWindowTitleBrush="Black" WindowState="Maximized">
+    <Controls:MetroWindow.BorderBrush>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF00A2FF" Offset="0"/>
+            <GradientStop Color="#FF00FF2E" Offset="1"/>
+        </LinearGradientBrush>
+    </Controls:MetroWindow.BorderBrush>
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+                <ResourceDictionary Source="/Angel Player;component/Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <RoutedUICommand x:Key="Play" Text="Plays the selected media." />
+            <RoutedUICommand x:Key="Up" Text="Moves the selected item up by one." />
+            <RoutedUICommand x:Key="Down" Text="Moves the selected item down by one." />
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="{StaticResource Play}" Executed="playMediaMenuItem_Click"/>
+        <CommandBinding Command="{StaticResource Up}" Executed="moveUpMenuItem_Click"/>
+        <CommandBinding Command="{StaticResource Down}" Executed="moveDownMenuItem_Click"/>
+    </Controls:MetroWindow.CommandBindings>
+    <Controls:MetroWindow.InputBindings>
+        <KeyBinding Key="Return"  Command="{StaticResource Play}"/>
+        <KeyBinding Key="U" Modifiers="Control" Command="{StaticResource Up}"/>
+        <KeyBinding Key="D" Modifiers="Control" Command="{StaticResource Down}"/>
+    </Controls:MetroWindow.InputBindings>
+    <Grid x:Name="grid" Drop="grid_Drop" AllowDrop="True">
+        <ListBox x:Name="listBox" Drop="grid_Drop" Margin="5,35,5,25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MouseDoubleClick="listBox_MouseDoubleClick" SelectionChanged="listBox_SelectionChanged">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="playMediaMenuItem" Header="Play Media" Click="playMediaMenuItem_Click" InputGestureText="Enter"/>
+                    <MenuItem x:Name="openContainingFolderMenuItem" Header="Open Containing Folder..." Click="openContainingFolderMenuItem_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="addMenuItem" Header="Add to Playlist..." Click="addMenuItem_Click"/>
+                    <MenuItem x:Name="removeMenuItem" Header="Remove from Playlist" Click="removeMenuItem_Click"/>
+                    <MenuItem x:Name="clearMenuItem" Header="Clear Playlist" Click="clearMenuItem_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="renameMediaMenuItem" Header="Rename Media" Click="renameMediaMenuItem_Click"/>
+                    <MenuItem x:Name="deleteMediaMenuItem" Header="Delete Media" Click="deleteMediaMenuItem_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="moveUpMenuItem" Header="Move Up" Click="moveUpMenuItem_Click" InputGestureText="Ctrl+U"/>
+                    <MenuItem x:Name="moveDownMenuItem" Header="Move Down" Click="moveDownMenuItem_Click" InputGestureText="Ctrl+D"/>
+                    <Separator/>
+                    <MenuItem x:Name="sortMenuItem" Header="Sort" Click="sortMenuItem_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <HierarchicalDataTemplate>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Visibility="{Binding Visibility, Mode=TwoWay}"/>
+                </HierarchicalDataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBox x:Name="searchTextBox" Controls:TextBoxHelper.Watermark="Search..." Height="23" Margin="5,5,5,0" HorizontalContentAlignment="Stretch" TextWrapping="NoWrap" VerticalAlignment="Top" TextChanged="searchTextBox_TextChanged"/>
+        <StatusBar x:Name="statusBar" Height="20" Margin="0,0,0,0" VerticalAlignment="Bottom">
+            <StatusBarItem DockPanel.Dock="Right"/>
+            <StatusBarItem x:Name="fullPathStatusBarItem"/>
+        </StatusBar>
+    </Grid>
+</Controls:MetroWindow>
